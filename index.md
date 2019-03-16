@@ -486,9 +486,9 @@ Please also see our [Message Parsing and Assembly](#message-parsing-and-assembly
 
 ## Numeric Replies
 
-Most messages sent from a client to a server generates a reply of some sort. The most common form of reply is the numeric reply, used for both errors and normal replies. A numeric reply MUST be sent as one message containing the sender prefix and the three-digit numeric. A numeric reply SHOULD contain the target of the reply as the first parameter of the message. A numeric reply is not allowed to originate from a client.
+Most messages sent from a client to a server generates a reply of some sort. The most common form of reply is the numeric reply, used for both errors and normal replies. Distinct from a normal message, a numeric reply MUST contain the sender prefix and use a three-digit numeric as the command. A numeric reply SHOULD contain the target of the reply as the first parameter of the message. A numeric reply is not allowed to originate from a client.
 
-In all other respects, a numeric reply is just like a normal message, except that the keyword is made up of 3 numeric digits rather than a string of letters. A list of numeric replies is supplied in the [Numerics](#numerics) section.
+In all other respects, a numeric reply is just like a normal message. A list of numeric replies is supplied in the [Numerics](#numerics) section.
 
 
 ## Wildcard Expressions
@@ -699,7 +699,7 @@ Since it is easy for a client to lie about its username by relying solely on the
 
 The maximum length of `<username>` may be specified by the [`USERLEN`](#userlen-parameter) `RPL_ISUPPORT` parameter. If this length is advertised, the username MUST be silently truncated to the given length before being used.
 
-The second and third parameters of this command SHOULD be sent as one zero `('0', 0x30)` and one asterix character `('*', 0x2A)` by the client, as the meaning of these two parameters varies between different versions of the IRC protocol.
+The second and third parameters of this command SHOULD be sent as one zero `('0', 0x30)` and one asterisk character `('*', 0x2A)` by the client, as the meaning of these two parameters varies between different versions of the IRC protocol.
 
 If a client tries to send the `USER` command after they have already completed registration with the server, the `ERR_ALREADYREGISTERED` reply should be sent and the attempt should fail.
 
@@ -1181,7 +1181,7 @@ If `<modestring>` is given, the supplied modes will be applied, and a `MODE` mes
 
 If `<target>` is a channel that does not exist on the network, the [`ERR_NOSUCHCHANNEL`](#errnosuchchannel-403) numeric is returned.
 
-If `<modestring>` is not given, the [`RPL_CHANNELMODEIS`](#rplchannelmodeis-324) numeric is returned. Servers MAY choose to hide sensitive information such as channel keys when sending the current modes.
+If `<modestring>` is not given, the [`RPL_CHANNELMODEIS`](#rplchannelmodeis-324) numeric is returned. Servers MAY choose to hide sensitive information such as channel keys when sending the current modes. Servers MAY also return the [`RPL_CREATIONTIME`](#rplcreationtime-329) numeric following `RPL_CHANNELMODEIS`.
 
 If `<modestring>` is given, the user sending the command MUST have appropriate channel privileges on the target channel to change the modes given. If a user does not have appropriate privileges to change modes on the target channel, the server MUST not process the message, and [`ERR_CHANOPRIVSNEEDED`](#errchanoprivsneeded-482) numeric is returned.
 If the user has permission to change modes on the target, the supplied modes will be applied based on the type of the mode (see below).
